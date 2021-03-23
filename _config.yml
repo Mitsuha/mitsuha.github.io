@@ -3,17 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Mitsuha
-subtitle: ''
+title: 忧郁的点心
+subtitle: '患有严重拖延症的低熵体 '
 description: ''
 keywords:
-author: John Doe
+author: Mitsuha
 language: en
 timezone: ''
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://example.com/child' and root as '/child/'
-url: http://example.com
+url: https://misakas.com
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
