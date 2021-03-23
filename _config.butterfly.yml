@@ -14,8 +14,8 @@ menu:
   # List||fas fa-list:
   #   - Music || /music/ || fas fa-music
   #   - Movie || /movies/ || fas fa-video
-  # Link: /link/ || fas fa-link
-  # About: /about/ || fas fa-heart
+  Link: /link/ || fas fa-link
+  About: /about/ || fas fa-heart
 
 # Hide the child menu items in mobile sidebar
 hide_sidebar_menu_child: false
@@ -83,7 +83,7 @@ favicon: /img/favicon.png
 
 # Avatar (頭像)
 avatar:
-  img:
+  img: https://tvax1.sinaimg.cn/large/005zWjpngy1fuhsfcn1oaj30qo0qodh1.jpg
   effect: false
 
 # Disable all banner image
@@ -93,7 +93,7 @@ disable_top_img: false
 index_img: https://tvax1.sinaimg.cn/large/005zWjpngy1fuho5abuynj32bc1awk0h.jpg
 
 # If the banner of page not setting, it will show the top_img
-default_top_img:
+default_top_img: https://api.paugram.com/wallpaper/?source=sina
 
 # The banner image of archive page
 archive_img:
@@ -144,7 +144,7 @@ post_meta:
     date_type: created # created or updated or both 主頁文章日期是創建日或者更新日或都顯示
     date_format: date # date/relative 顯示日期還是相對日期
     categories: true # true or false 主頁是否顯示分類
-    tags: false # true or false 主頁是否顯示標籤
+    tags: true # true or false 主頁是否顯示標籤
     label: true # true or false 顯示描述性文字
   post:
     date_type: both # created or updated or both 文章頁日期是創建日或者更新日或都顯示
@@ -405,7 +405,7 @@ footer:
     enable: true
     since: 2020
   custom_text:
-  copyright: true # Copyright of theme and framework
+  copyright: false # Copyright of theme and framework
 
 # Analysis
 # --------------------------------------
@@ -480,20 +480,20 @@ yandex_site_verification:
 # Theme color for customize
 # Notice: color value must in double quotes like "#000" or may cause error!
 
-# theme_color:
-#   enable: true
-#   main: "#49B1F5"
-#   paginator: "#00c4b6"
-#   button_hover: "#FF7242"
-#   text_selection: "#00c4b6"
-#   link_color: "#99a9bf"
-#   meta_color: "#858585"
-#   hr_color: "#A4D8FA"
-#   code_foreground: "#F47466"
-#   code_background: "rgba(27, 31, 35, .05)"
-#   toc_color: "#00c4b6"
-#   blockquote_padding_color: "#49b1f5"
-#   blockquote_background_color: "#49b1f5"
+theme_color:
+  enable: true
+  main: "#111111"
+  paginator: "#111111"
+  button_hover: "#FF7242"
+  text_selection: "#00c4b6"
+  link_color: "#111111"
+  meta_color: "#111111"
+  hr_color: "#111111"
+  code_foreground: "#F47466"
+  code_background: "rgba(27, 31, 35, .05)"
+  toc_color: "#00c4b6"
+  blockquote_padding_color: "#49b1f5"
+  blockquote_background_color: "#49b1f5"
 
 # The top_img settings of home page
 # default: top img - full screen, site info - middle (默認top_img全屏，site_info在中間)
@@ -654,7 +654,7 @@ aside:
       link: https://github.com/Mitsuha
   card_announcement:
     enable: true
-    content: 你是我一生只会遇见一次的惊喜
+    content: 人间废物
   card_recent_post:
     enable: true
     limit: 5 # if set 0 will show all
