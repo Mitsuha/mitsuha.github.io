@@ -3158,6 +3158,13 @@ blockquote footer cite:before {
   -ms-transition: all 0.5s;
   transition: all 0.5s;
 }
+#page-header:before {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.2);
+  content: '';
+}
 #page-header.full_page {
   height: 100vh;
   background-attachment: fixed;
@@ -3167,6 +3174,38 @@ blockquote footer cite:before {
   top: 43%;
   padding: 0 0.5rem;
   width: 100%;
+  text-align: center;
+}
+#page-header.full_page #site-info #site-title {
+  margin: 0;
+  color: #00f5e7;
+  font-size: 1.85em;
+  display: inline;
+  width: 100%;
+}
+#page-header.full_page #site-info #site-title:before {
+  position: absolute;
+  top: 0px;
+  left: -6px;
+  color: #ff0068;
+  opacity: 0.8;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+  filter: alpha(opacity=80);
+  z-index: 1;
+  content: attr(data-title);
+}
+#page-header.full_page #site-info #site-title:after {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  color: var(--white);
+  z-index: 2;
+  content: attr(data-title);
+}
+@media screen and (min-width: 768px) {
+  #page-header.full_page #site-info #site-title {
+    font-size: 3.58em;
+  }
 }
 #page-header #site-title,
 #page-header #site-subtitle,
