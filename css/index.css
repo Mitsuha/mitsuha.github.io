@@ -1521,6 +1521,19 @@ img:not([src]) {
 .img-alt:hover {
   text-decoration: none !important;
 }
+del {
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  transition: all 0.5s;
+  background: #000;
+  color: #000;
+  text-decoration: none;
+}
+del:hover {
+  background: #fff;
+}
 figure.highlight table::-webkit-scrollbar-thumb {
   background: #dce4eb;
 }
@@ -2444,6 +2457,14 @@ blockquote footer cite:before {
   -webkit-box-shadow: var(--card-hover-box-shadow);
   box-shadow: var(--card-hover-box-shadow);
 }
+#aside-content .card-info {
+  background-image: -webkit-linear-gradient(#fc7b69, #fa6a8f);
+  background-image: -moz-linear-gradient(#fc7b69, #fa6a8f);
+  background-image: -o-linear-gradient(#fc7b69, #fa6a8f);
+  background-image: -ms-linear-gradient(#fc7b69, #fa6a8f);
+  background-image: linear-gradient(#fc7b69, #fa6a8f);
+  color: #fff;
+}
 #aside-content .card-info img {
   width: 110px;
   height: 110px;
@@ -2478,12 +2499,12 @@ blockquote footer cite:before {
   display: table-cell;
 }
 #aside-content .card-info .card-info-data > .card-info-data-item a .headline {
-  color: var(--font-color);
+  color: #fff;
   font-size: 1em;
 }
 #aside-content .card-info .card-info-data > .card-info-data-item a .length-num {
   margin-top: -0.3rem;
-  color: var(--text-highlight-color);
+  color: #fff;
   font-size: 1.4em;
 }
 #aside-content .card-info .card-info-social-icons {
