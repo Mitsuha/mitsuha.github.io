@@ -1,38 +1,16 @@
 ---
-title: Hello World
+title: 嗨，我回来了
+tags: bibi
 ---
-Welcome to [Hexo](https://hexo.io/)! This is your very first post. Check [documentation](https://hexo.io/docs/) for more info. If you get any problems when using Hexo, you can find the answer in [troubleshooting](https://hexo.io/docs/troubleshooting.html) or you can ask me on [GitHub](https://github.com/hexojs/hexo/issues).
+距离上次更新博文已经过去数年之久，偶然想起来发现因为欠费太多 Vultr 已经把我的账号 ban 掉了。联系了客服被通知服务器已被删除，数据无法恢复。于是从17年第一次开始写的碎碎念全部丢掉了（备份数据的重要性
 
-## Quick Start
+## Restart
 
-### Create a new post
+从上次更新到现在，期间发生了一些比较有意思的好事或坏事，~~社会的重压再次被放在这个自闭的年轻人身上~~ 但应该都在向好的方面发展~~并不~~。现在把 blog 移动到了 hexo，之后就是美化 + 
 
-``` bash
-$ hexo new "My New Post"
+### The end
+然后，这是一个传统
+
+``` Go
+fmt.Println("Hello world")
 ```
-
-More info: [Writing](https://hexo.io/docs/writing.html)
-
-### Run server
-
-``` bash
-$ hexo server
-```
-
-More info: [Server](https://hexo.io/docs/server.html)
-
-### Generate static files
-
-``` bash
-$ hexo generate
-```
-
-More info: [Generating](https://hexo.io/docs/generating.html)
-
-### Deploy to remote sites
-
-``` bash
-$ hexo deploy
-```
-
-More info: [Deployment](https://hexo.io/docs/one-command-deployment.html)
