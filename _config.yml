@@ -5,7 +5,7 @@
 # Site
 title: 忧郁的点心
 subtitle: '患有严重拖延症的低熵体 '
-description: ''
+description: '宇宙星辰，人间废物'
 keywords:
 author: Mitsuha
 language: en
@@ -105,3 +105,10 @@ theme: butterfly
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: ''
+
+github:
+  readme: https://github-readme-stats.vercel.app/api?username=Mitsuha&show_icons=true&theme=radical
+  top_lang: https://github-readme-stats.vercel.app/api/top-langs/?username=Mitsuha&hide=java&hide_border=true
+
+netease:
+  music: https://music.163.com/outchain/player?type=0&id=601234005&auto=1&height=430

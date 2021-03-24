@@ -10,12 +10,17 @@
     border-radius: 12px 8px 8px 12px
     background: var(--card-bg)
     box-shadow: var(--card-box-shadow)
-    transition: all .3s
-
+    transition: all .5s
+    background-position: center;
+    background-size: 100%;
+    color: white
+    // &:before
+      
     +maxWidth768()
       border-radius: 12px 12px 8px 8px
 
     &:hover
+      background-size: 110%;
       box-shadow: var(--card-hover-box-shadow)
 
       img.post_bg
@@ -74,7 +79,8 @@
       & > .article-title
         @extend .limit-more-line
         margin-bottom: .3rem
-        color: var(--text-highlight-color)
+        // color: var(--text-highlight-color)
+        color: white
         font-size: 1.72em
         line-height: 1.4
         transition: all .2s ease-in-out
@@ -84,7 +90,8 @@
           color: $text-hover
 
       & > .article-meta-wrap
-        color: $theme-meta-color
+        // color: $theme-meta-color
+        color: white
         font-size: 90%
 
         & > .post-meta-date
@@ -116,10 +123,11 @@
             display: none
 
         a
-          color: $theme-meta-color
+          // color: $theme-meta-color
+          color: white
 
           &:hover
-            color: $text-hover
+            // color: $text-hover
             text-decoration: underline
 
       & > .content
@@ -132,6 +140,11 @@
     .recent-post-item
       flex-direction: column
       height: auto !important
+      background-position: center;
+      background-size: 100%;
+
+      &:hover
+        background-size: 120%;
 
       .post_cover
         order: 1 !important

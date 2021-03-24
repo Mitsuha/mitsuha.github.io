@@ -653,7 +653,7 @@ aside:
       text: Follow Me
       link: https://github.com/Mitsuha
   card_announcement:
-    enable: true
+    enable: false
     content: 人间废物
   card_recent_post:
     enable: true
