@@ -5,7 +5,7 @@
 # Site
 title: 忧郁的点心
 subtitle: '患有严重拖延症的低熵体 '
-description: '宇宙星辰，人间废物'
+description: '宇宙星尘，人间废物'
 keywords:
 author: Mitsuha
 language: en
@@ -67,7 +67,7 @@ index_generator:
   order_by: -date
 
 # Category & Tag
-default_category: uncategorized
+default_category: default
 category_map:
 tag_map:
 
