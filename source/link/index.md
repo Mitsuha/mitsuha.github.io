@@ -2,7 +2,6 @@
 title: Link
 date: 2021-03-24 16:48:15
 ---
-<% css('./styles.styl') %>
 # 嗨！
 
 <!-- 我是一个 Programmer，ACG lovers，Golang、Dart、Rust 的使用者。宇宙的星尘，~~人间的 five~~。很高兴认识你，我会在这里发布我的所知所想以及对世界的看法。欢迎关注 -->
@@ -13,7 +12,7 @@ date: 2021-03-24 16:48:15
   {% for link in site.data.links %}
     <div class="business-card">
       <div class="avatar">
-        <img src="{{ link.avatar }}" alt="">
+        <img src="{{ link.avatar }}" alt="" width=100>
       </div>
       <div class="introduction">
         <p class="name">{{ link.name }}</p>
