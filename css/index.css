@@ -1534,6 +1534,20 @@ del {
 del:hover {
   background: #fff;
 }
+.circle-img {
+  border-radius: 50%;
+}
+.button {
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+.button:hover {
+  text-decoration: none !important;
+}
+.btn-primary {
+  background: #111;
+  color: #fff !important;
+}
 figure.highlight table::-webkit-scrollbar-thumb {
   background: #dce4eb;
 }
@@ -2137,37 +2151,7 @@ blockquote footer cite:before {
   -ms-transform: rotate(360deg);
   transform: rotate(360deg);
 }
-#article-container .flink .flink-list > .flink-list-item:before {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
-  background: var(--text-bg-hover);
-  content: '';
-  -webkit-transition: -webkit-transform 0.3s ease-out;
-  -moz-transition: -moz-transform 0.3s ease-out;
-  -o-transition: -o-transform 0.3s ease-out;
-  -ms-transition: -ms-transform 0.3s ease-out;
-  transition: transform 0.3s ease-out;
-  -webkit-transform: scale(0);
-  -moz-transform: scale(0);
-  -o-transform: scale(0);
-  -ms-transform: scale(0);
-  transform: scale(0);
-}
-#article-container .flink .flink-list > .flink-list-item:hover:before,
-#article-container .flink .flink-list > .flink-list-item:focus:before,
-#article-container .flink .flink-list > .flink-list-item:active:before {
-  -webkit-transform: scale(1);
-  -moz-transform: scale(1);
-  -o-transform: scale(1);
-  -ms-transform: scale(1);
-  transform: scale(1);
-}
 #article-container .flink .flink-list > .flink-list-item a {
-  color: var(--font-color);
   text-decoration: none;
 }
 #article-container .flink .flink-list > .flink-list-item a img {
@@ -3910,6 +3894,46 @@ _:future,
 }
 #post .ads-wrap {
   margin: 2rem 0;
+}
+#post .card {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -o-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -o-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #f6f6f6;
+  padding: 10px;
+}
+#post .card .card-subwidget {
+  display: inline-block;
+}
+#post .card .card-subwidget img {
+  width: 100px;
+}
+#post .card .card-content {
+  margin-left: 20px;
+}
+#post .card img {
+  margin: 0;
+}
+#post .link-card {
+  width: 50%;
+  margin: 0 auto;
 }
 .relatedPosts {
   margin-top: 2rem;
