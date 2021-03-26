@@ -1,11 +1,20 @@
-- name: ⑨BIE
-  avatar: https://9bie.org/
-  site: https://9bie.org/
-  stack:
-  description: 伪技术宅的迷之地
+- class_name: 
+  class_desc: 
+  link_list:
+    - name: ⑨BIE
+      link: https://9bie.org/
+      avatar: https://9bie.org/BIE.jpg
+      descr: 伪技术宅的迷之地
+      color: "#ffffff"
+      background: 
+        - '#3A55B0'
+        - '#3A55B0'
 
-- name: 贫困の蚊子
-  avatar: https://img.qwq.globalslb.net/icon-circle.png
-  site: https://qwq.moe/
-  stack:
-  description: 
+    - name: 贫困の蚊子
+      link: https://qwq.moe/
+      avatar: https://img.qwq.globalslb.net/icon-circle.png
+      descr: 贫困の蚊子
+      color: "black"
+      background: 
+        - '#dedcdc'
+        - '#dedcdc'
