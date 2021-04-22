@@ -1,3 +1,9 @@
+const Second = 1000
+let nowPlayingMusic = ''
+const nowPlayingStyle = document.querySelector(".nowPlayingStyle")
+const nowPlayingElement = document.querySelector(".now-playing")
+
+
 document.addEventListener('DOMContentLoaded', function () {
   const $blogName = document.getElementById('site-name')
   let blogNameWidth = $blogName && $blogName.offsetWidth
@@ -833,4 +839,56 @@ document.addEventListener('DOMContentLoaded', function () {
 
   refreshFn()
   unRefreshFn()
+
+  nowPlaying()
+  setInterval(nowPlaying, 10 * Second)
+  
 })
+
+function nowPlaying() {
+  let xhr = new XMLHttpRequest();
+
+  xhr.open("GET", "http://playing.misakas.com:9999/", true)
+  xhr.send()
+
+  xhr.onload = function (response) {
+    var result = JSON.parse(xhr.responseText);
+    // update   
+    if (nowPlayingMusic === result.id){
+      return
+    }
+    nowPlayingMusic = result.id
+    nowPlayingElement.querySelector(".music-name").innerText = result.track.name
+    nowPlayingElement.querySelector(".music-album").innerText = `${result.track.artists[0].name} - ${result.track.album.name}`
+
+    SteinsColor.colors(result.track.album.picUrl, 5, function(colors) {
+        let color = colors[1];
+        
+        if (color.r > 255 || color.g > 255 || color.b > 255){
+          nowPlayingElement.style.color = 'while'
+        }else{{
+          nowPlayingElement.style.color = 'black'
+        }}
+
+        originColor = color.string();
+        color.a = 0
+        opacityColor =  color.string();
+
+        nowPlayingStyle.innerHTML = `
+        .now-playing:before{
+          background-image: linear-gradient(to right, ${originColor} 50%, ${opacityColor} 80%)
+        }
+        .now-playing:after{
+          background-image: url(${result.track.album.picUrl})
+        }
+        .now-playing .item-body .slider:before{
+          width: 50%
+        }
+        .now-playing .item-body .slider:after{
+          left: 50%
+        }
+        `
+      }
+    );
+  }
+}

@@ -1,0 +1,15 @@
+if config.netease.playing
+  .card-widget.none-padding.now-playing(data-color="black")
+    .item-headline
+      i.fas.fa-play
+      span= '网易云音乐 · 正在播放'
+    .item-body
+      p.music-name
+      p.music-album
+      
+      .progress-bars
+        .slider
+
+      .timeline
+        span.left="00:15"
+        span.right="01:05"

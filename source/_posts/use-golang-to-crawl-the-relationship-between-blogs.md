@@ -1,9 +1,10 @@
 ---
 title: 使用 Golang 爬博客之间的关联关系
 date: 2021-04-13 14:35:34
-tags:
+tags: [Code, Go]
 cover: https://p3-tt.byteimg.com/origin/pgc-image/a600173346314a0482192afad4dbdb55.png
 ---
+> Pixiv id of the cover: 89022444
 
 # 嗨！
 

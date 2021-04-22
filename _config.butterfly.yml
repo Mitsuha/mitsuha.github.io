@@ -486,7 +486,7 @@ theme_color:
   paginator: "#111111"
   button_hover: "#FF7242"
   text_selection: "#00c4b6"
-  link_color: "#111111"
+  link_color: "#4db2ff"
   meta_color: "#111111"
   hr_color: "#111111"
   code_foreground: "#F47466"
@@ -871,6 +871,7 @@ CDN:
   jquery: https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js
   main: /js/main.js
   utils: /js/utils.js
+  rgbaster: /js/rgbaster.umd.min.js
 
   # pjax
   pjax: https://cdn.jsdelivr.net/npm/pjax/pjax.min.js
