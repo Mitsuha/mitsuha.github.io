@@ -1,6 +1,6 @@
-const logger = require('hexo-log')()
-
 hexo.extend.filter.register('before_generate', () => {
+  const { version, log, locals } = hexo
+
   // Get first two digits of the Hexo version number
   var hexoVer = hexo.version.replace(/(^.*\..*)\..*/, '$1')
 
