@@ -83,14 +83,14 @@ favicon: /img/favicon.png
 
 # Avatar (頭像)
 avatar:
-  img: https://tvax1.sinaimg.cn/large/005zWjpngy1fuhsfcn1oaj30qo0qodh1.jpg
+  img: https://goprogram-1259653388.cos.ap-beijing.myqcloud.com/img/005zWjpngy1fuhsfcn1oaj30qo0qodh1.jpg
   effect: false
 
 # Disable all banner image
 disable_top_img: false
 
 # The banner image of home page
-index_img: https://tvax1.sinaimg.cn/large/005zWjpngy1fuho5abuynj32bc1awk0h.jpg
+index_img: https://goprogram-1259653388.cos.ap-beijing.myqcloud.com/img/005zWjpngy1fuho5abuynj32bc1awk0h.jpg
 
 # If the banner of page not setting, it will show the top_img
 default_top_img: https://api.paugram.com/wallpaper/?source=sina
