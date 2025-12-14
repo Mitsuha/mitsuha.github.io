@@ -1,0 +1,157 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>将 Go 程序注册为一个 Window 服务（原生） | 忧郁的点心</title><meta name="keywords" content="Code,Go,Windows"><meta name="author" content="Mitsuha"><meta name="copyright" content="Mitsuha"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Pixiv id of the cover: 75471021   这是一篇没有写完的文章  &emsp; 写了一个小玩具需要一直放在后台运行，就用 Windows Service 吧！ Service 可以在后台长时间运行程序，并且可以在开机时启动、随时暂停和恢复，非常适合跑一些不需要管理的任务。官方提供了 sys&#x2F;windows&#x2F;svc 包对 Service 提供了必要的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="将 Go 程序注册为一个 Window 服务（原生）">
+<meta property="og:url" content="https://misakas.com/default/register-the-window-service-with-a-go-program/index.html">
+<meta property="og:site_name" content="忧郁的点心">
+<meta property="og:description" content="Pixiv id of the cover: 75471021   这是一篇没有写完的文章  &emsp; 写了一个小玩具需要一直放在后台运行，就用 Windows Service 吧！ Service 可以在后台长时间运行程序，并且可以在开机时启动、随时暂停和恢复，非常适合跑一些不需要管理的任务。官方提供了 sys&#x2F;windows&#x2F;svc 包对 Service 提供了必要的">
+<meta property="og:locale">
+<meta property="og:image" content="https://pic.iask.cn/fimg/838593252458.jpg">
+<meta property="article:published_time" content="2021-04-22T08:13:56.000Z">
+<meta property="article:modified_time" content="2025-12-14T04:30:36.783Z">
+<meta property="article:author" content="Mitsuha">
+<meta property="article:tag" content="Code">
+<meta property="article:tag" content="Go">
+<meta property="article:tag" content="Windows">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.iask.cn/fimg/838593252458.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://misakas.com/default/register-the-window-service-with-a-go-program/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-12-14 12:30:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><style class="nowPlayingStyle"></style><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 8.1.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://goprogram-1259653388.cos.ap-beijing.myqcloud.com/img/005zWjpngy1fuhsfcn1oaj30qo0qodh1.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">9</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">7</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://pic.iask.cn/fimg/838593252458.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">忧郁的点心</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">将 Go 程序注册为一个 Window 服务（原生）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-04-22T08:13:56.000Z" title="Created 2021-04-22 16:13:56">2021-04-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2025-12-14T04:30:36.783Z" title="Updated 2025-12-14 12:30:36">2025-12-14</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p>Pixiv id of the cover: 75471021</p>
+</blockquote>
+<blockquote>
+<p>这是一篇没有写完的文章</p>
+</blockquote>
+<p>&emsp; 写了一个小玩具需要一直放在后台运行，就用 Windows Service 吧！ Service 可以在后台长时间运行程序，并且可以在开机时启动、随时暂停和恢复，非常适合跑一些不需要管理的任务。官方提供了 <a target="_blank" rel="noopener" href="https://pkg.go.dev/golang.org/x/sys/windows/svc/">sys&#x2F;windows&#x2F;svc</a> 包对 Service 提供了必要的支持，虽然用起来比较繁琐，但是学习可以较深的理解 Windows 处理 Service 的一些细节。那本文就来用 <a target="_blank" rel="noopener" href="https://pkg.go.dev/golang.org/x/sys/windows/svc/">sys&#x2F;windows&#x2F;svc</a> 和其子包实现了一个提供 http 服务的小 demo，可以通过 shell 去注册和控制 Service，我们可以随时运行 services.msc 打开服务窗口，方便调试</p>
+<h2 id="注册一个-Service"><a href="#注册一个-Service" class="headerlink" title="注册一个 Service"></a>注册一个 Service</h2><p>先启动一个 http 服务，解析一下命令行，使用 <code>--install</code> 的时候去注册 Service。<strong>为表简洁，下面的代码就不贴 httpService 函数和一些解析的代码了</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;flag&quot;</span><br><span class="line">	&quot;net/http&quot;</span><br><span class="line">)</span><br><span class="line">var flagServiceInstall = flag.Bool(&quot;install&quot;, false, &quot;Install service&quot;)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	flag.Parse()</span><br><span class="line">	if *flagServiceInstall &#123;</span><br><span class="line">		... install service</span><br><span class="line">	&#125;</span><br><span class="line">	httpService()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func httpService() &#123;</span><br><span class="line">	http.HandleFunc(&quot;/&quot;, func(writer http.ResponseWriter, request *http.Request) &#123;</span><br><span class="line">		writer.Write([]byte(&quot;&lt;h1&gt;Hello world&lt;/h1&gt;&quot;))</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	_ = http.ListenAndServe(&quot;0.0.0.0:8080&quot;, nil)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来我们写一个方法去注册服务。首先使用 mgr 包去建立到服务控制管理器的连接，成功后就可以使用 CreateService 函数建立新的 Service 了。CreateService 需要的 mgr.Config 并不是每一个配置项都是必须的，有一些可选值可以参考我找到的微软的官方文档：<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/dotnet/api/system.serviceprocess.servicetype">ServiceType 枚举 (System.ServiceProcess) | Microsoft Docs</a><br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/dotnet/api/system.serviceprocess.servicestartmode">ServiceStartMode 枚举 (System.ServiceProcess) | Microsoft Docs</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">func install() &#123;</span><br><span class="line">	m, err := mgr.Connect()</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		log.Fatalln(err)</span><br><span class="line">	&#125;</span><br><span class="line">	defer m.Disconnect()</span><br><span class="line">	</span><br><span class="line">	s, err := m.CreateService(&quot;Service name&quot;, &quot;program path&quot;,</span><br><span class="line">		mgr.Config&#123;</span><br><span class="line">			ServiceType:      windows.SERVICE_WIN32_OWN_PROCESS,</span><br><span class="line">			StartType:        windows.SERVICE_AUTO_START,</span><br><span class="line">			ServiceStartName: &quot;Service name&quot;,</span><br><span class="line">			DisplayName:      &quot;Service alias name&quot;,</span><br><span class="line">			Description:      &quot;Service Description&quot;,</span><br><span class="line">			DelayedAutoStart: false,</span><br><span class="line">		&#125;,</span><br><span class="line">		&quot;-t -r ....&quot;,</span><br><span class="line">	)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		log.Fatalln(err)</span><br><span class="line">	&#125;</span><br><span class="line">	s.Close()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Mitsuha</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://misakas.com/default/register-the-window-service-with-a-go-program/">https://misakas.com/default/register-the-window-service-with-a-go-program/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Code/">Code</a><a class="post-meta__tags" href="/tags/Go/">Go</a><a class="post-meta__tags" href="/tags/Windows/">Windows</a></div><div class="post_share"><div class="social-share" data-image="https://pic.iask.cn/fimg/838593252458.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/default/my-understanding-of-Kants-view-of-space/"><img class="prev-cover" src="https://cdn-news.readmoo.com/wp-content/uploads/2022/10/KANT.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">我认为的康德的空间观</div></div></a></div><div class="next-post pull-right"><a href="/default/use-golang-to-crawl-the-relationship-between-blogs/"><img class="next-cover" src="https://p3-tt.byteimg.com/origin/pgc-image/a600173346314a0482192afad4dbdb55.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">使用 Golang 爬博客之间的关联关系</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> Related Articles</span></div><div class="relatedPosts-list"><div><a href="/default/use-golang-to-crawl-the-relationship-between-blogs/" title="使用 Golang 爬博客之间的关联关系"><img class="cover" src="https://p3-tt.byteimg.com/origin/pgc-image/a600173346314a0482192afad4dbdb55.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-04-13</div><div class="title">使用 Golang 爬博客之间的关联关系</div></div></a></div><div><a href="/default/Java-ArrayList-source-code-analysis/" title="Java ArrayList 源码解析"><img class="cover" src="https://www.softwaretestinghelp.com/wp-content/qa/uploads/2020/03/Array-list-Conversion1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-11-10</div><div class="title">Java ArrayList 源码解析</div></div></a></div><div><a href="/default/correct-response-and-error-handling-in-CORS/" title="跨域时的正确响应和错误处理"><img class="cover" src="https://geekflare.com/wp-content/uploads/2019/11/cors-1200x385.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-11-05</div><div class="title">跨域时的正确响应和错误处理</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://goprogram-1259653388.cos.ap-beijing.myqcloud.com/img/005zWjpngy1fuhsfcn1oaj30qo0qodh1.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Mitsuha</div><div class="author-info__description">宇宙星尘，人间废物</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">9</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">7</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Mitsuha"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E4%B8%80%E4%B8%AA-Service"><span class="toc-number">1.</span> <span class="toc-text">注册一个 Service</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/default/my-understanding-of-Kants-view-of-space/" title="我认为的康德的空间观"><img src="https://cdn-news.readmoo.com/wp-content/uploads/2022/10/KANT.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="我认为的康德的空间观"/></a><div class="content"><a class="title" href="/default/my-understanding-of-Kants-view-of-space/" title="我认为的康德的空间观">我认为的康德的空间观</a><time datetime="2025-12-13T15:40:09.000Z" title="Created 2025-12-13 23:40:09">2025-12-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/default/register-the-window-service-with-a-go-program/" title="将 Go 程序注册为一个 Window 服务（原生）"><img src="https://pic.iask.cn/fimg/838593252458.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="将 Go 程序注册为一个 Window 服务（原生）"/></a><div class="content"><a class="title" href="/default/register-the-window-service-with-a-go-program/" title="将 Go 程序注册为一个 Window 服务（原生）">将 Go 程序注册为一个 Window 服务（原生）</a><time datetime="2021-04-22T08:13:56.000Z" title="Created 2021-04-22 16:13:56">2021-04-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/default/use-golang-to-crawl-the-relationship-between-blogs/" title="使用 Golang 爬博客之间的关联关系"><img src="https://p3-tt.byteimg.com/origin/pgc-image/a600173346314a0482192afad4dbdb55.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="使用 Golang 爬博客之间的关联关系"/></a><div class="content"><a class="title" href="/default/use-golang-to-crawl-the-relationship-between-blogs/" title="使用 Golang 爬博客之间的关联关系">使用 Golang 爬博客之间的关联关系</a><time datetime="2021-04-13T06:35:34.000Z" title="Created 2021-04-13 14:35:34">2021-04-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/default/spanning-half-century-Light-up-a-nixie-tube/" title="跨越半个世纪的时间 - 来点亮一只辉光管"><img src="https://www.daliborfarny.com/wp-content/uploads/2016/11/LKJ0771_1280.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="跨越半个世纪的时间 - 来点亮一只辉光管"/></a><div class="content"><a class="title" href="/default/spanning-half-century-Light-up-a-nixie-tube/" title="跨越半个世纪的时间 - 来点亮一只辉光管">跨越半个世纪的时间 - 来点亮一只辉光管</a><time datetime="2021-03-25T02:05:52.000Z" title="Created 2021-03-25 10:05:52">2021-03-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/default/hello-world/" title="嗨，我回来了"><img src="https://cdn.jsdelivr.net/gh/w-gx/2D/20200206161608.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="嗨，我回来了"/></a><div class="content"><a class="title" href="/default/hello-world/" title="嗨，我回来了">嗨，我回来了</a><time datetime="2021-03-23T23:34:18.000Z" title="Created 2021-03-24 07:34:18">2021-03-24</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>Tags</span></div><div class="card-tag-cloud"><a href="/tags/Code/" style="font-size: 1.5em; color: #99a9bf">Code</a> <a href="/tags/Go/" style="font-size: 1.3em; color: #99a1ac">Go</a> <a href="/tags/Linux/" style="font-size: 1.3em; color: #99a1ac">Linux</a> <a href="/tags/Windows/" style="font-size: 1.1em; color: #999">Windows</a> <a href="/tags/bibi/" style="font-size: 1.1em; color: #999">bibi</a> <a href="/tags/%E5%BA%B7%E5%BE%B7/" style="font-size: 1.1em; color: #999">康德</a> <a href="/tags/%E8%BE%89%E5%85%89%E9%92%9F/" style="font-size: 1.1em; color: #999">辉光钟</a></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By Mitsuha</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/rgbaster.umd.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
